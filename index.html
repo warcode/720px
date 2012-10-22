@@ -1,0 +1,134 @@
+<html>
+<head>
+
+  <meta charset="utf-8">
+  
+  <title>720px</title>
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
+  <script type="text/javascript" src="http://warcode.net/720px/mustache.js"></script>
+
+  <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab' rel='stylesheet' type='text/css'>
+  <style type="text/css">
+  body {
+
+  }
+  body, td {
+    font:normal normal 100%/1.0 'Arbutus Slab';
+  }
+  </style>
+
+  <script>
+  var timer;
+  var user;
+
+  $(function() {
+    Twitch.init({clientId: '1dm7dynbljc06wxfrdpdbhk0x'}, function(error, status) {
+      // the sdk is now loaded
+  	if (status.authenticated) {
+      var token = Twitch.getToken()
+      //console.log(token)
+    	// Already logged in, hide button
+    		$('.twitch-connect').hide()
+        $('.loginarea').empty();
+        Twitch.api({method: 'user'}, function(error, users) {
+          if(error != null) console.log(error)
+          
+          user = users['display_name'];
+
+          var view = '<center><h2>Welcome to <i>720px</i></h2><br><img src={{logo}} width=32 height=32></img> [<b>{{display_name}}</b>]</center>';
+          $('#embed-player').hide().append('<center>')
+          $('#embed-player').hide().append(Mustache.to_html(view, users)).fadeIn();
+        });
+
+        Twitch.api({method: 'streams/followed'}, function(error, streams) {
+          if(error != null) { 
+            console.log(error);
+            $('#user-data').hide().html("Connection Error!").fadeIn();
+          }
+          else {
+            var view = '<br><br><br><div style="text-align:center"><span class="smalltext"><strong>Live streams:</strong> <br> {{#streams}}<div>{{#channel}}<a href="#" onClick="embedChannel(\'{{name}}\')">{{name}}</a> [<a href="#" onClick="embedChannelWithChat(\'{{name}}\')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank">n</a>] - {{status}}{{/channel}}</div>{{/streams}}{{^streams}}No streams online.{{/streams}}<div>';
+
+            window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
+            $('#user-data').hide().html(Mustache.to_html(view, streams)).fadeIn();
+          }
+          timer = setInterval(getFollowedStreams, 180000);
+        });
+  	}
+    });
+
+    $('.twitch-connect').click(function() {
+      Twitch.login({
+        scope: ['user_read', 'user_followed']
+      });
+    })
+
+  });
+
+  function getFollowedStreams() {
+    Twitch.api({method: 'streams/followed'}, function(error, streams) {
+      if(error != null) { 
+        console.log(error);
+        $('#user-data').hide().html("Connection Error!").fadeIn();
+      }
+      else {
+        var view = '<div style="text-align:center; padding:20px;"><span class="smalltext"><strong>Live streams:</strong> <br> {{#streams}}<div>{{#channel}}<a href="#" onClick="embedChannel(\'{{name}}\')">{{name}}</a> [<a href="#" onClick="getEmbedChat(\'{{name}}\')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank">n</a>] - {{status}}{{/channel}}</div>{{/streams}}{{^streams}}No streams online.{{/streams}}<div>';
+
+        window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
+        $('#user-data').hide().html(Mustache.to_html(view, streams)).fadeIn();
+    }
+    });
+  }
+
+  function embedChannel(channel) {
+    var view = '<div><center><object type="application/x-shockwave-flash" height="747" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" /></object></center></div>';
+    var data = {"channel": channel};
+    $('#embed-player').hide().html(Mustache.to_html(view, data)).fadeIn();
+  }
+
+  function embedChannelWithChat(channel) {
+    var view = '<div style="padding:0; float:left;"><center><object type="application/x-shockwave-flash" height="747" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" /></object></div><div style="padding:0; float:left; overflow: hidden;"><iframe frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" src=\"http://twitch.tv/chat/embed?channel={{channel}}&amp;popout_chat=true&quot;\" height=\"750\" width=\"370\"></iframe></div></center><div style="clear: both;"></div>';
+    var data = {"channel": channel};
+    $('#embed-player').hide().html(Mustache.to_html(view, data)).fadeIn();
+  }
+
+  </script>
+
+  <style type="text/css">
+  .hidden {
+    display: none;
+  }
+  </style>
+
+</head>
+
+<body>
+
+  <div id='embed-player'>
+  </div>
+
+  <br><br><br>
+  <center>
+  <div id='user-data'>
+  </div>
+  </center>
+
+  <div class='loginarea'>
+  <center>
+  <h2>Welcome to <i>720px</i></h2><br>
+  <br><br>
+  This is a minimalistic 720px embed-site for <a href="http://www.twitch.tv">Twitch.TV</a> which lets you see 720p content in all its glory, without having to pop-out or go full-screen.<br>
+  It automatically fetches and refreshes a list of those streams you follow on your Twitch.TV account that are currently live!<br>
+  <br>
+  When you press the button below it will take you to the official Twitch.TV app permission page to allow <i>720px</i> to access limited parts of your account.<br>
+  <br>
+  <img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png" class="twitch-connect" href="#" />
+  <br>
+  <br>
+  (The app runs completely in your browser using Javascript and nothing is actually saved by the webserver. Full source can be accessed through your browser. Uses the official Twitch.TV Javascript SDK.)
+  </center>
+  </div>
+
+</body>
+</html>
