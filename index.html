@@ -37,9 +37,11 @@
           
           user = users['display_name'];
 
-          var view = '<center><h2>Welcome to <i>720px</i></h2><br><img src={{logo}} width=32 height=32></img> [<b>{{display_name}}</b>]</center>';
-          $('#embed-player').hide().append('<center>')
-          $('#embed-player').hide().append(Mustache.to_html(view, users)).fadeIn();
+          var view = '<center><h2>Welcome to <i>720px</i></h2></center>';
+          $('#embed-player').hide().append(view).fadeIn();
+		  
+		  var viewUser = '<img src={{logo}} width=24 height=24></img> [<b>{{display_name}}</b>]</center>';
+		  $('#user-info').hide().html(Mustache.to_html(viewUser, users)).fadeIn();
         });
 
         Twitch.api({method: 'streams/followed'}, function(error, streams) {
@@ -50,7 +52,8 @@
           else {
             var view = '<br><br><br><div style="text-align:center"><span class="smalltext"><strong>Live streams:</strong> <br> {{#streams}}<div>{{#channel}}<a href="#" onClick="embedChannel(\'{{name}}\')">{{name}}</a> [<a href="#" onClick="embedChannelWithChat(\'{{name}}\')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank">n</a>] - {{status}}{{/channel}}</div>{{/streams}}{{^streams}}No streams online.{{/streams}}<div>';
 
-            window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
+            //window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
+			window.document.title = "720px - ("+streams['streams'].length+") Live";
             $('#user-data').hide().html(Mustache.to_html(view, streams)).fadeIn();
           }
           timer = setInterval(getFollowedStreams, 180000);
@@ -64,6 +67,16 @@
       });
     })
 
+    $('.dark-button').toggle(function() {
+        document.bgColor='#000000';
+        $('.dark-toggle').addClass('gray-text');
+    }, function() {
+        document.bgColor='#FFFFFF'
+        $('.dark-toggle').removeClass('gray-text');
+    });
+	
+	$('#dark-toggle').hide();
+
   });
 
   function getFollowedStreams() {
@@ -75,7 +88,8 @@
       else {
         var view = '<div style="text-align:center; padding:20px;"><span class="smalltext"><strong>Live streams:</strong> <br> {{#streams}}<div>{{#channel}}<a href="#" onClick="embedChannel(\'{{name}}\')">{{name}}</a> [<a href="#" onClick="getEmbedChat(\'{{name}}\')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank">n</a>] - {{status}}{{/channel}}</div>{{/streams}}{{^streams}}No streams online.{{/streams}}<div>';
 
-        window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
+        //window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
+		window.document.title = "720px - ("+streams['streams'].length+") Live";
         $('#user-data').hide().html(Mustache.to_html(view, streams)).fadeIn();
     }
     });
@@ -99,6 +113,10 @@
   .hidden {
     display: none;
   }
+
+  .gray-text {
+    color: 'gray';
+  }
   </style>
 
 </head>
@@ -109,16 +127,19 @@
   </div>
 
   <br><br><br>
-  <center>
-  <div id='user-data'>
-  </div>
-  </center>
 
-  <div class='loginarea'>
-  <center>
+
+  <div id='user-data' style="text-align:center;">
+  </div>
+  <br>
+  <br>
+  <div id='user-info' style="text-align:center;">
+  </div>
+
+  <div class='loginarea' style="text-align: center; margin-left: 15%; margin-right: 15%;">
   <h2>Welcome to <i>720px</i></h2><br>
   <br><br>
-  This is a minimalistic 720px embed-site for <a href="http://www.twitch.tv" target="_blank">Twitch.TV</a> which lets you see 720p content in all its glory, without having to pop-out or go full-screen.<br>
+  This is a minimalistic 720px embed-site for <a href="http://www.twitch.tv" target="_blank">Twitch.TV</a> which lets you see 720p content in all its glory, without having to pop-out or go full-screen.
   It automatically fetches and refreshes a list of those streams you follow on your Twitch.TV account that are currently live!<br><br>
   NOTE: The minimum resolution for side-by-side stream-chat positioning is 1680x1050. This is due to the minimum allowed chat size allowed by Twitch.<br>
   <br>
@@ -129,7 +150,10 @@
   <br>
   <br>
   (The app runs completely in your browser using Javascript and nothing is actually saved by the webserver. Full source can be accessed through your browser or <a href="https://github.com/warcode/720px" target="_blank">on github</a>. Uses the official Twitch.TV Javascript SDK.)
-  </center>
+  </div>
+
+  <div id='dark-toggle' style="text-align:center;">
+  [<a href="#" class="dark-button">dark/light</a>]
   </div>
 
 </body>
