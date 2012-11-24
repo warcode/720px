@@ -5,7 +5,7 @@ It can be found at http://warcode.net/720px/
 * It automatically fetches and refreshes a list of those streams you follow on your Twitch.TV account that are currently live.
 * The app runs completely in your browser using Javascript and nothing is actually saved by the webserver.
 * Uses the official [Twitch.TV Javascript SDK](https://github.com/justintv/twitch-js-sdk).
-* Uses mustache.js and jquery
+* Uses ICANHAZ.JS and jQuery
 
 To run the code on your own site:
 -----------
