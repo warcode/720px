@@ -7,7 +7,7 @@
 
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
-  <script type="text/javascript" src="http://warcode.net/720px/mustache.js"></script>
+  <script type="text/javascript" src="http://warcode.net/720px/ICanHaz.min.js"></script>
 
   <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab' rel='stylesheet' type='text/css'>
   <style type="text/css">
@@ -18,6 +18,47 @@
     font:normal normal 100%/1.0 'Arbutus Slab';
   }
   </style>
+
+  <script id="followedStreams" type="text/html">
+    <div style="text-align:center; padding:20px;">
+      <span class="smalltext">
+        <strong>Live streams:</strong> 
+        <br> 
+        {{#streams}}
+          <div>
+            {{#channel}}<a href="#" onClick="embedChannel('{{name}}')">{{name}}</a> [<a href="#" onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank">n</a>] - {{status}}{{/channel}}
+          </div>
+        {{/streams}}{{^streams}}No streams online.{{/streams}}
+    </div>
+    <div>
+  </script>
+
+  <script id="embedChannel" type="text/html">
+    <div>
+      <center>
+        <object type="application/x-shockwave-flash" height="747" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
+        </object>
+      </center>
+    </div>
+  </script>
+
+  <script id="embedChannelAndChat" type="text/html">
+    <div style="padding:0; float:left;">
+    <center>
+      <object type="application/x-shockwave-flash" height="747" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
+      </object>
+    </div>
+    <div style="padding:0; float:left; overflow: hidden;">
+      <iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel={{channel}}&amp;popout_chat=true&quot;" height="750" width="370"></iframe>
+    </div>
+    </center>
+    <div style="clear: both;">
+    </div>
+  </script>
+
+  <script id="userData" type="text/html">
+    <img src={{logo}} width="24" height="24"></img> [<b>{{display_name}}</b>]</center>
+  </script>
 
   <script>
   var timer;
@@ -41,7 +82,7 @@
           $('#embed-player').hide().append(view).fadeIn();
 		  
 		  var viewUser = '<img src={{logo}} width=24 height=24></img> [<b>{{display_name}}</b>]</center>';
-		  $('#user-info').hide().html(Mustache.to_html(viewUser, users)).fadeIn();
+		  $('#user-info').hide().html(ich.userData(users)).fadeIn();
         });
 
         Twitch.api({method: 'streams/followed'}, function(error, streams) {
@@ -50,11 +91,10 @@
             $('#user-data').hide().html("Connection Error!").fadeIn();
           }
           else {
-            var view = '<br><br><br><div style="text-align:center"><span class="smalltext"><strong>Live streams:</strong> <br> {{#streams}}<div>{{#channel}}<a href="#" onClick="embedChannel(\'{{name}}\')">{{name}}</a> [<a href="#" onClick="embedChannelWithChat(\'{{name}}\')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank">n</a>] - {{status}}{{/channel}}</div>{{/streams}}{{^streams}}No streams online.{{/streams}}<div>';
 
             //window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
 			window.document.title = "720px - ("+streams['streams'].length+") Live";
-            $('#user-data').hide().html(Mustache.to_html(view, streams)).fadeIn();
+            $('#user-data').hide().html(ich.followedStreams(streams)).fadeIn();
           }
           timer = setInterval(getFollowedStreams, 180000);
         });
@@ -86,25 +126,22 @@
         $('#user-data').hide().html("Connection Error!").fadeIn();
       }
       else {
-        var view = '<div style="text-align:center; padding:20px;"><span class="smalltext"><strong>Live streams:</strong> <br> {{#streams}}<div>{{#channel}}<a href="#" onClick="embedChannel(\'{{name}}\')">{{name}}</a> [<a href="#" onClick="getEmbedChat(\'{{name}}\')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank">n</a>] - {{status}}{{/channel}}</div>{{/streams}}{{^streams}}No streams online.{{/streams}}<div>';
 
         //window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
 		window.document.title = "720px - ("+streams['streams'].length+") Live";
-        $('#user-data').hide().html(Mustache.to_html(view, streams)).fadeIn();
+        $('#user-data').hide().html(ich.followedStreams(streams)).fadeIn();
     }
     });
   }
 
   function embedChannel(channel) {
-    var view = '<div><center><object type="application/x-shockwave-flash" height="747" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" /></object></center></div>';
     var data = {"channel": channel};
-    $('#embed-player').hide().empty().html(Mustache.to_html(view, data)).fadeIn();
+    $('#embed-player').hide().empty().html(ich.embedChannel(data)).fadeIn();
   }
 
   function embedChannelWithChat(channel) {
-    var view = '<div style="padding:0; float:left;"><center><object type="application/x-shockwave-flash" height="747" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" /></object></div><div style="padding:0; float:left; overflow: hidden;"><iframe frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" src=\"http://twitch.tv/chat/embed?channel={{channel}}&amp;popout_chat=true&quot;\" height=\"750\" width=\"370\"></iframe></div></center><div style="clear: both;"></div>';
     var data = {"channel": channel};
-    $('#embed-player').hide().empty().html(Mustache.to_html(view, data)).fadeIn();
+    $('#embed-player').hide().empty().html(ich.embedChannelAndChat(data)).fadeIn();
   }
 
   </script>
