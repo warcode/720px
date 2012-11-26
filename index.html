@@ -65,6 +65,11 @@
   var user;
 
   $(function() {
+    $('div.size-control').hide();
+    $('div.size-control-dropdown').hide();
+    $('div.size-control-dropdown').click(function(){
+      $('div.size-control').slideToggle(100);
+    });
     Twitch.init({clientId: '1dm7dynbljc06wxfrdpdbhk0x'}, function(error, status) {
       // the sdk is now loaded
   	if (status.authenticated) {
@@ -93,7 +98,7 @@
           else {
 
             //window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
-			window.document.title = "720px - ("+streams['streams'].length+") Live";
+		        window.document.title = "720px - ("+streams['streams'].length+") Live";
             $('#user-data').hide().html(ich.followedStreams(streams)).fadeIn();
           }
           timer = setInterval(getFollowedStreams, 180000);
@@ -137,11 +142,18 @@
   function embedChannel(channel) {
     var data = {"channel": channel};
     $('#embed-player').hide().empty().html(ich.embedChannel(data)).fadeIn();
+    $('div.size-control-dropdown').fadeIn();
   }
 
   function embedChannelWithChat(channel) {
     var data = {"channel": channel};
     $('#embed-player').hide().empty().html(ich.embedChannelAndChat(data)).fadeIn();
+    $('div.size-control-dropdown').fadeIn();
+  }
+
+  function resizePlayer(width, height) {
+    document.getElementById("live_embed_player_flash").style.height = height;
+    document.getElementById("live_embed_player_flash").style.width = width;
   }
 
   </script>
@@ -154,6 +166,10 @@
   .gray-text {
     color: 'gray';
   }
+
+  .size-control {
+    background-color: #C9DBDB
+  }
   </style>
 
 </head>
@@ -163,11 +179,35 @@
   <div id='embed-player'>
   </div>
 
-  <br><br><br>
+  <br>
+
+  <center>
+  <div class='size-control-dropdown' style="text-align:center; width: 900px">
+    [Click for resolutions]
+  </div>
+
+  <div class="size-control" style="text-align:center; width: 500px; word-spacing:1em">
+  <a href='#' onClick='resizePlayer(640, 390)'>[360p]</a> 
+  <a href='#' onClick='resizePlayer(854, 510)'>[480p]</a> 
+  <a href='#' onClick='resizePlayer(960, 570)'>[540p]</a>
+  <a href='#' onClick='resizePlayer(1024, 606)'>[576p]</a><br>
+  <a href='#' onClick='resizePlayer(1280, 750)'>[720p]</a>
+  <a href='#' onClick='resizePlayer(1366, 798)'>[768p]</a>
+  <a href='#' onClick='resizePlayer(1600, 930)'>[900p]</a>
+  <a href='#' onClick='resizePlayer(1920, 1110)'>[1080p]</a><br>
+  <a href='#' onClick='resizePlayer(2048, 1182)'>[1152p]</a>
+  <a href='#' onClick='resizePlayer(2560, 1470)'>[1440p]</a>
+  <a href='#' onClick='resizePlayer(3840, 2190)'>[2160p]</a>
+  <a href='#' onClick='resizePlayer(4096, 2334)'>[2304p]</a>
+  </div>
+  </center>
+  <br>
+  <br>
 
 
   <div id='user-data' style="text-align:center;">
   </div>
+  <br>
   <br>
   <br>
   <div id='user-info' style="text-align:center;">
