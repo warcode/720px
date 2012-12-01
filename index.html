@@ -5,18 +5,36 @@
   
   <title>720px</title>
 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript" src="https://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/ICanHaz.min.js"></script>
 
   <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab' rel='stylesheet' type='text/css'>
+
   <style type="text/css">
+
   body {
 
   }
+
   body, td {
     font:normal normal 100%/1.0 'Arbutus Slab';
   }
+
+  .hidden {
+    display: none;
+  }
+
+  .gray-text {
+    color: 'gray';
+  }
+
+  .size-control {
+    background-color: #C9DBDB;
+    padding-top: 5px;
+  }
+
+
   </style>
 
   <script id="followedStreams" type="text/html">
@@ -49,7 +67,7 @@
       </object>
     </div>
     <div style="padding:0; float:left; overflow: hidden;">
-      <iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel={{channel}}&amp;popout_chat=true&quot;" height="750" width="370"></iframe>
+      <iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel={{channel}}&amp;popout_chat=true&quot;" height="750" width="495"></iframe>
     </div>
     </center>
     <div style="clear: both;">
@@ -158,20 +176,6 @@
 
   </script>
 
-  <style type="text/css">
-  .hidden {
-    display: none;
-  }
-
-  .gray-text {
-    color: 'gray';
-  }
-
-  .size-control {
-    background-color: #C9DBDB
-  }
-  </style>
-
 </head>
 
 <body>
@@ -187,18 +191,18 @@
   </div>
 
   <div class="size-control" style="text-align:center; width: 500px; word-spacing:1em">
-  <a href='#' onClick='resizePlayer(640, 390)'>[360p]</a> 
-  <a href='#' onClick='resizePlayer(854, 510)'>[480p]</a> 
-  <a href='#' onClick='resizePlayer(960, 570)'>[540p]</a>
-  <a href='#' onClick='resizePlayer(1024, 606)'>[576p]</a><br>
-  <a href='#' onClick='resizePlayer(1280, 750)'>[720p]</a>
-  <a href='#' onClick='resizePlayer(1366, 798)'>[768p]</a>
-  <a href='#' onClick='resizePlayer(1600, 930)'>[900p]</a>
-  <a href='#' onClick='resizePlayer(1920, 1110)'>[1080p]</a><br>
-  <a href='#' onClick='resizePlayer(2048, 1182)'>[1152p]</a>
-  <a href='#' onClick='resizePlayer(2560, 1470)'>[1440p]</a>
-  <a href='#' onClick='resizePlayer(3840, 2190)'>[2160p]</a>
-  <a href='#' onClick='resizePlayer(4096, 2334)'>[2304p]</a>
+    <a href='#' onClick='resizePlayer(640, 390)'>[360p]</a> 
+    <a href='#' onClick='resizePlayer(854, 510)'>[480p]</a> 
+    <a href='#' onClick='resizePlayer(960, 570)'>[540p]</a>
+    <a href='#' onClick='resizePlayer(1024, 606)'>[576p]</a><br>
+    <a href='#' onClick='resizePlayer(1280, 750)'>[720p]</a>
+    <a href='#' onClick='resizePlayer(1366, 798)'>[768p]</a>
+    <a href='#' onClick='resizePlayer(1600, 930)'>[900p]</a>
+    <a href='#' onClick='resizePlayer(1920, 1110)'>[1080p]</a><br>
+    <a href='#' onClick='resizePlayer(2048, 1182)'>[1152p]</a>
+    <a href='#' onClick='resizePlayer(2560, 1470)'>[1440p]</a>
+    <a href='#' onClick='resizePlayer(3840, 2190)'>[2160p]</a>
+    <a href='#' onClick='resizePlayer(4096, 2334)'>[2304p]</a>
   </div>
   </center>
   <br>
