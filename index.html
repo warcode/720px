@@ -8,6 +8,7 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript" src="https://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/ICanHaz.min.js"></script>
+  <script type="text/javascript" src="http://warcode.net/720px/jquery-ui-1.9.2.custom.min.js"></script>
 
   <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab' rel='stylesheet' type='text/css'>
 
@@ -30,8 +31,45 @@
   }
 
   .size-control {
-    background-color: #C9DBDB;
     padding-top: 5px;
+  }
+
+  .dark-text {
+    color: #a0a19c !important;
+  }
+
+  .dark-background {
+    color: #49483e !important;
+  }
+
+  #twitch_chat, #chat_column {
+    background-color: #272822 !important;
+    color: white;
+  }
+
+  a.light:link {
+    color: #800080;
+  }
+
+  a.light:visited {
+    color: #800080;
+  }
+
+  a.light:hover {
+    color: red;
+  }
+
+  a.dark:link {
+    color: #ae81ff !important;
+  }
+
+  a.dark:visited {
+    color: #ae81ff !important;
+  }
+
+  a.dark:hover {
+    
+    color: #66d9ef !important;
   }
 
 
@@ -44,7 +82,21 @@
         <br> 
         {{#streams}}
           <div>
-            {{#channel}}<a href="#" onClick="embedChannel('{{name}}')">{{name}}</a> [<a href="#" onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank">n</a>] - {{status}}{{/channel}}
+            {{#channel}}<a href="#" class='stream-link light' onClick="embedChannel('{{name}}')">{{name}}</a> [<a href="#" class='stream-link light' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" class='stream-link light'>n</a>] - {{status}}{{/channel}}
+          </div>
+        {{/streams}}{{^streams}}No streams online.{{/streams}}
+    </div>
+    <div>
+  </script>
+
+  <script id="followedStreams-dark" type="text/html">
+    <div style="text-align:center; padding:20px;">
+      <span class="smalltext">
+        <strong>Live streams:</strong> 
+        <br> 
+        {{#streams}}
+          <div>
+            {{#channel}}<a href="#" class='stream-link light dark' onClick="embedChannel('{{name}}')">{{name}}</a> [<a href="#" class='stream-link light dark' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" class='stream-link light'>n</a>] - {{status}}{{/channel}}
           </div>
         {{/streams}}{{^streams}}No streams online.{{/streams}}
     </div>
@@ -54,7 +106,7 @@
   <script id="embedChannel" type="text/html">
     <div>
       <center>
-        <object type="application/x-shockwave-flash" height="747" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
+        <object type="application/x-shockwave-flash" height="750" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
         </object>
       </center>
     </div>
@@ -63,10 +115,10 @@
   <script id="embedChannelAndChat" type="text/html">
     <div style="padding:0; float:left;">
     <center>
-      <object type="application/x-shockwave-flash" height="747" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
+      <object type="application/x-shockwave-flash" height="750" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
       </object>
     </div>
-    <div style="padding:0; float:left; overflow: hidden;">
+    <div id="chat_embed" style="padding:0; float:left; border: 0; overflow: hidden !important;" >
       <iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel={{channel}}&amp;popout_chat=true&quot;" height="750" width="495"></iframe>
     </div>
     </center>
@@ -81,8 +133,12 @@
   <script>
   var timer;
   var user;
+  var darkness;
 
   $(function() {
+
+    darkness = localStorage.getItem('warcode.720px.darkness');
+
     $('div.size-control').hide();
     $('div.size-control-dropdown').hide();
     $('div.size-control-dropdown').click(function(){
@@ -91,21 +147,24 @@
     Twitch.init({clientId: '1dm7dynbljc06wxfrdpdbhk0x'}, function(error, status) {
       // the sdk is now loaded
   	if (status.authenticated) {
-      var token = Twitch.getToken()
+      var token = Twitch.getToken();
       //console.log(token)
     	// Already logged in, hide button
-    		$('.twitch-connect').hide()
+    		$('.twitch-connect').hide();
         $('.loginarea').empty();
         Twitch.api({method: 'user'}, function(error, users) {
-          if(error != null) console.log(error)
-          
+          if(error != null) {
+            console.log(error)
+          }
+
           user = users['display_name'];
 
           var view = '<center><h2>Welcome to <i>720px</i></h2></center>';
           $('#embed-player').hide().append(view).fadeIn();
 		  
-		  var viewUser = '<img src={{logo}} width=24 height=24></img> [<b>{{display_name}}</b>]</center>';
-		  $('#user-info').hide().html(ich.userData(users)).fadeIn();
+		      var viewUser = '<img src={{logo}} width=24 height=24></img> [<b>{{display_name}}</b>]</center>';
+		      $('#user-info').hide().html(ich.userData(users)).fadeIn();
+          $('#dark-toggle').fadeIn();
         });
 
         Twitch.api({method: 'streams/followed'}, function(error, streams) {
@@ -117,7 +176,11 @@
 
             //window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
 		        window.document.title = "720px - ("+streams['streams'].length+") Live";
-            $('#user-data').hide().html(ich.followedStreams(streams)).fadeIn();
+            $('#user-data').hide().html(ich.followedStreams(streams));
+            if (darkness == 'true') { 
+              $('.light').addClass('dark'); 
+            }
+            $('#user-data').fadeIn();
           }
           timer = setInterval(getFollowedStreams, 180000);
         });
@@ -130,16 +193,41 @@
       });
     })
 
-    $('.dark-button').toggle(function() {
-        document.bgColor='#000000';
-        $('.dark-toggle').addClass('gray-text');
-    }, function() {
-        document.bgColor='#FFFFFF'
-        $('.dark-toggle').removeClass('gray-text');
-    });
-	
-	$('#dark-toggle').hide();
 
+    $('.dark-button').toggle(function() 
+      {
+          $(document.body).animate({
+            backgroundColor: "#272822"
+          }, 250);
+
+          $("chat_embed").animate({
+            backgroundColor: "#272822"
+          }, 250);
+          
+
+          $('.light').addClass('dark');
+          $('div#main-page').addClass('dark-text');
+          darkness = true;
+          localStorage.setItem('warcode.720px.darkness', true);
+      }, function()
+      {
+          $(document.body).animate({
+          backgroundColor: "#FFFFFF"
+          }, 250);
+
+          $('.light').removeClass('dark');
+          $('div#main-page').removeClass('dark-text');
+          darkness = false;
+          localStorage.setItem('warcode.720px.darkness', false);
+      });
+	
+    $('#dark-toggle').hide();
+
+    if (darkness == 'true') {
+      $('.light').addClass('dark');
+      $('div#main-page').addClass('dark-text');
+      $(document.body).animate({backgroundColor: "#272822"}, 10);
+    }
   });
 
   function getFollowedStreams() {
@@ -150,9 +238,15 @@
       }
       else {
 
-        //window.document.title = "720px for ["+user+"] ("+streams['streams'].length+")";
-		window.document.title = "720px - ("+streams['streams'].length+") Live";
-        $('#user-data').hide().html(ich.followedStreams(streams)).fadeIn();
+		    window.document.title = "720px - ("+streams['streams'].length+") Live";
+
+        $('#user-data').hide().html(ich.followedStreams(streams));
+
+        if (darkness == 'true') { 
+          $('.light').addClass('dark');
+        }
+
+        $('#user-data').fadeIn();
     }
     });
   }
@@ -179,7 +273,7 @@
 </head>
 
 <body>
-
+<div id='main-page' style="overflow: hidden">
   <div id='embed-player'>
   </div>
 
@@ -191,18 +285,18 @@
   </div>
 
   <div class="size-control" style="text-align:center; width: 500px; word-spacing:1em">
-    <a href='#' onClick='resizePlayer(640, 390)'>[360p]</a> 
-    <a href='#' onClick='resizePlayer(854, 510)'>[480p]</a> 
-    <a href='#' onClick='resizePlayer(960, 570)'>[540p]</a>
-    <a href='#' onClick='resizePlayer(1024, 606)'>[576p]</a><br>
-    <a href='#' onClick='resizePlayer(1280, 750)'>[720p]</a>
-    <a href='#' onClick='resizePlayer(1366, 798)'>[768p]</a>
-    <a href='#' onClick='resizePlayer(1600, 930)'>[900p]</a>
-    <a href='#' onClick='resizePlayer(1920, 1110)'>[1080p]</a><br>
-    <a href='#' onClick='resizePlayer(2048, 1182)'>[1152p]</a>
-    <a href='#' onClick='resizePlayer(2560, 1470)'>[1440p]</a>
-    <a href='#' onClick='resizePlayer(3840, 2190)'>[2160p]</a>
-    <a href='#' onClick='resizePlayer(4096, 2334)'>[2304p]</a>
+    <a href='#' onClick='resizePlayer(640, 390)' class='light'>[360p]</a> 
+    <a href='#' onClick='resizePlayer(854, 510)' class='light'>[480p]</a> 
+    <a href='#' onClick='resizePlayer(960, 570)' class='light'>[540p]</a>
+    <a href='#' onClick='resizePlayer(1024, 606)' class='light'>[576p]</a><br>
+    <a href='#' onClick='resizePlayer(1280, 750)' class='light'>[720p]</a>
+    <a href='#' onClick='resizePlayer(1366, 798)' class='light'>[768p]</a>
+    <a href='#' onClick='resizePlayer(1600, 930)' class='light'>[900p]</a>
+    <a href='#' onClick='resizePlayer(1920, 1110)' class='light'>[1080p]</a><br>
+    <a href='#' onClick='resizePlayer(2048, 1182)' class='light'>[1152p]</a>
+    <a href='#' onClick='resizePlayer(2560, 1470)' class='light'>[1440p]</a>
+    <a href='#' onClick='resizePlayer(3840, 2190)' class='light'>[2160p]</a>
+    <a href='#' onClick='resizePlayer(4096, 2334)' class='light'>[2304p]</a>
   </div>
   </center>
   <br>
@@ -211,9 +305,15 @@
 
   <div id='user-data' style="text-align:center;">
   </div>
-  <br>
-  <br>
-  <br>
+  <br />
+  <br />
+  <br />
+
+  <div id='dark-toggle' style="text-align:center;">
+    [<a href="#" class="dark-button light">Toggle day/night</a>]
+  </div>
+
+  <br />
   <div id='user-info' style="text-align:center;">
   </div>
 
@@ -221,7 +321,7 @@
   <div class='loginarea' style="text-align: center; width: 900px">
   <h2>Welcome to <i>720px</i></h2><br>
   <br><br>
-  This is a minimalistic 720px embed-site for <a href="http://www.twitch.tv" target="_blank">Twitch</a> which lets you see 720p content in all its glory, without having to pop-out or go full-screen.
+  This is a minimalistic 720px embed-site for <a href="http://www.twitch.tv" class='light' target="_blank">Twitch</a> which lets you see 720p content in all its glory, without having to pop-out or go full-screen.
   It automatically fetches and refreshes a list of those streams you follow on your Twitch.TV account that are currently live!<br><br>
   NOTE: The minimum resolution for side-by-side stream-chat positioning is 1680x1050. This is due to the minimum allowed chat size allowed by Twitch.<br>
   <br>
@@ -231,13 +331,9 @@
   <img src="http://ttv-api.s3.amazonaws.com/assets/connect_dark.png" class="twitch-connect" href="#" />
   <br>
   <br>
-  (The app runs completely in your browser using Javascript and nothing is actually saved by the webserver. Full source can be accessed through your browser or <a href="https://github.com/warcode/720px" target="_blank">on github</a>. Uses the official Twitch Javascript SDK.)
+  (The app runs completely in your browser using Javascript and nothing is actually saved by the webserver. Full source can be accessed through your browser or <a href="https://github.com/warcode/720px" class='light' target="_blank">on github</a>. Uses the official Twitch Javascript SDK.)
   </div>
   </center>
-
-  <div id='dark-toggle' style="text-align:center;">
-  [<a href="#" class="dark-button">dark/light</a>]
-  </div>
-
+</div>
 </body>
 </html>
