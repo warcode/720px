@@ -260,17 +260,21 @@ function embedChannel(channel) {
   var data = {"channel": channel};
   $('#embed-player').hide().empty().html(ich.embedChannel(data)).fadeIn();
   $('div.size-control-dropdown').fadeIn();
+  resizePlayer(localStorage.getItem('warcode.720px.player.width'), localStorage.getItem('warcode.720px.player.height'));
 }
 
 function embedChannelWithChat(channel) {
   var data = {"channel": channel};
   $('#embed-player').hide().empty().html(ich.embedChannelAndChat(data)).fadeIn();
   $('div.size-control-dropdown').fadeIn();
+  resizePlayer(localStorage.getItem('warcode.720px.player.width'), localStorage.getItem('warcode.720px.player.height'));
 }
 
 function resizePlayer(width, height) {
   document.getElementById("live_embed_player_flash").style.height = height;
   document.getElementById("live_embed_player_flash").style.width = width;
+  localStorage.setItem('warcode.720px.player.height', height);
+  localStorage.setItem('warcode.720px.player.width', width);
 }
 
 </script>
