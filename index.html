@@ -106,16 +106,17 @@
   <script id="embedChannel" type="text/html">
   <div>
   <center>
-  <object type="application/x-shockwave-flash" height="750" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
+  <object type="application/x-shockwave-flash" height="750" width="1280" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="enable_javascript=true&auto_play=false&channel={{channel}}&start_volume=25" />
   </object>
   </center>
   </div>
   </script>
 
+
   <script id="embedChannelAndChat" type="text/html">
   <div style="padding:0; float:left;">
   <center>
-  <object type="application/x-shockwave-flash" height="750" width="1280" id="live_embed_player_flash" data="http://www.justin.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.justin.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
+  <object type="application/x-shockwave-flash" height="750" width="1280" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
   </object>
   </div>
   <div id="chat_embed" style="padding:0; float:left; border: 0; overflow: hidden !important;" >
@@ -268,6 +269,11 @@ function embedChannelWithChat(channel) {
   $('#embed-player').hide().empty().html(ich.embedChannelAndChat(data)).fadeIn();
   $('div.size-control-dropdown').fadeIn();
   resizePlayer(localStorage.getItem('warcode.720px.player.width'), localStorage.getItem('warcode.720px.player.height'));
+}
+
+function quickPlay(channel) {
+    var pl = document.getElementById("live_embed_player_flash");
+    pl.data = "http://www.twitch.tv/widgets/live_embed_player.swf?channel=mlg";
 }
 
 function resizePlayer(width, height) {
