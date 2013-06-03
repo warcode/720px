@@ -1,0 +1,57 @@
+  body {
+
+  }
+
+  body, td {
+    font:normal normal 100%/1.0 'Arbutus Slab';
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .gray-text {
+    color: 'gray';
+  }
+
+  .size-control {
+    padding-top: 5px;
+  }
+
+  .dark-text {
+    color: #a0a19c !important;
+  }
+
+  .dark-background {
+    color: #49483e !important;
+  }
+
+  #twitch_chat, #chat_column {
+    background-color: #272822 !important;
+    color: white;
+  }
+
+  a.light:link {
+    color: #800080;
+  }
+
+  a.light:visited {
+    color: #800080;
+  }
+
+  a.light:hover {
+    color: red;
+  }
+
+  a.dark:link {
+    color: #ae81ff !important;
+  }
+
+  a.dark:visited {
+    color: #ae81ff !important;
+  }
+
+  a.dark:hover {
+
+    color: #66d9ef !important;
+  }
