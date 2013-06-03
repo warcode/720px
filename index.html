@@ -113,7 +113,7 @@
         var AppRouter = Backbone.Router.extend({
             routes: {
                 "channel/:ch": "channelRoute",
-                "*actions": "defaultRoute" // matches http://example.com/#anything-here
+                "*action": "defaultRoute" // matches http://example.com/#anything-here
             }
         });
         // Initiate the router
@@ -124,7 +124,7 @@
         });
 
         app_router.on('route:defaultRoute', function(actions) {
-            embedChannel(ch);
+            embedChannel(action);
         });
 
         // Start Backbone history a necessary step for bookmarkable URL's
