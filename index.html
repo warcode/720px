@@ -108,6 +108,29 @@
         var viewUser = '<img src={{logo}} width=24 height=24></img> [<b>{{display_name}}</b>]</center>';
         $('#user-info').hide().html(ich.userData(users)).fadeIn();
         $('#dark-toggle').fadeIn();
+
+
+        var AppRouter = Backbone.Router.extend({
+            routes: {
+                "channel/:ch": "channelRoute",
+                "*actions": "defaultRoute" // matches http://example.com/#anything-here
+            }
+        });
+        // Initiate the router
+        var app_router = new AppRouter;
+
+        app_router.on('route:channelRoute', function(ch) {
+            alert(ch);
+            embedChannel(ch);
+        });
+
+        app_router.on('route:defaultRoute', function(actions) {
+            //alert(actions);
+        });
+
+        // Start Backbone history a necessary step for bookmarkable URL's
+        Backbone.history.start();
+    
       });
 
       Twitch.api({method: 'streams/followed'}, function(error, streams) {
@@ -177,27 +200,6 @@ if (darkness == 'true') {
   $(document.body).animate({backgroundColor: "#272822"}, 10);
 }
 
-    var AppRouter = Backbone.Router.extend({
-        routes: {
-            "channel/:ch": "channelRoute",
-            "*actions": "defaultRoute" // matches http://example.com/#anything-here
-        }
-    });
-    // Initiate the router
-    var app_router = new AppRouter;
-
-    app_router.on('route:channelRoute', function(ch) {
-        alert(ch);
-        embedChannel(ch);
-    });
-
-    app_router.on('route:defaultRoute', function(actions) {
-        //alert(actions);
-    });
-
-    // Start Backbone history a necessary step for bookmarkable URL's
-    Backbone.history.start();
-    
 });
 
 function getFollowedStreams() {
