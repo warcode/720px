@@ -176,6 +176,28 @@ if (darkness == 'true') {
   $('div#main-page').addClass('dark-text');
   $(document.body).animate({backgroundColor: "#272822"}, 10);
 }
+
+    var AppRouter = Backbone.Router.extend({
+        routes: {
+            "channel/:ch": "channelRoute",
+            "*actions": "defaultRoute" // matches http://example.com/#anything-here
+        }
+    });
+    // Initiate the router
+    var app_router = new AppRouter;
+
+    app_router.on('route:channelRoute', function(ch) {
+        alert(ch);
+        embedChannel(ch);
+    });
+
+    app_router.on('route:defaultRoute', function(actions) {
+        //alert(actions);
+    });
+
+    // Start Backbone history a necessary step for bookmarkable URL's
+    Backbone.history.start();
+    
 });
 
 function getFollowedStreams() {
@@ -226,30 +248,6 @@ function resizePlayer(width, height) {
 }
 
 </script>
-
-  <script>
-    var AppRouter = Backbone.Router.extend({
-        routes: {
-            "channel/:ch": "channelRoute",
-            "*actions": "defaultRoute" // matches http://example.com/#anything-here
-        }
-    });
-    // Initiate the router
-    var app_router = new AppRouter;
-
-    app_router.on('route:channelRoute', function(ch) {
-        alert(ch);
-        embedChannel(ch);
-    });
-
-    app_router.on('route:defaultRoute', function(actions) {
-        //alert(actions);
-    });
-
-    // Start Backbone history a necessary step for bookmarkable URL's
-    Backbone.history.start();
-
-  </script>
 
 </head>
 
