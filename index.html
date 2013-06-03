@@ -9,7 +9,7 @@
   <script type="text/javascript" src="http://warcode.net/720px/underscore-min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/json2.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/backbone-min.js"></script>
-  <script type="text/javascript" src="https://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
+  <script type="text/javascript" src="http://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/ICanHaz.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/jquery-ui-1.9.2.custom.min.js"></script>
 
@@ -71,29 +71,6 @@
 
   <script id="userData" type="text/html">
   <img src={{logo}} width="24" height="24"></img> [<b>{{display_name}}</b>]</center>
-  </script>
-
-  <script>
-    var AppRouter = Backbone.Router.extend({
-        routes: {
-            "channel/:ch": "channelRoute",
-            "*actions": "defaultRoute" // matches http://example.com/#anything-here
-        }
-    });
-    // Initiate the router
-    var app_router = new AppRouter;
-
-    app_router.on('route:channelRoute', function(ch) {
-        alert(ch);
-    });
-
-    app_router.on('route:defaultRoute', function(actions) {
-        //alert(actions);
-    });
-
-    // Start Backbone history a necessary step for bookmarkable URL's
-    Backbone.history.start();
-
   </script>
 
   <script>
@@ -249,6 +226,30 @@ function resizePlayer(width, height) {
 }
 
 </script>
+
+  <script>
+    var AppRouter = Backbone.Router.extend({
+        routes: {
+            "channel/:ch": "channelRoute",
+            "*actions": "defaultRoute" // matches http://example.com/#anything-here
+        }
+    });
+    // Initiate the router
+    var app_router = new AppRouter;
+
+    app_router.on('route:channelRoute', function(ch) {
+        alert(ch);
+        embedChannel(ch);
+    });
+
+    app_router.on('route:defaultRoute', function(actions) {
+        //alert(actions);
+    });
+
+    // Start Backbone history a necessary step for bookmarkable URL's
+    Backbone.history.start();
+
+  </script>
 
 </head>
 
