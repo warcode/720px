@@ -24,7 +24,7 @@
   <br> 
   {{#streams}}
   <div>
-  {{#channel}}<a href="#" class='stream-link light'>{{name}}</a> [<a href="#/chan/{{name}}" class='stream-link light' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" class='stream-link light'>n</a>] - {{status}}{{/channel}}
+  {{#channel}}<a href="#/chan/{{name}}" class='stream-link light'>{{name}}</a> [<a href="#/chan/{{name}}/chat" class='stream-link light' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" class='stream-link light'>n</a>] - {{status}}{{/channel}}
   </div>
   {{/streams}}{{^streams}}No streams online.{{/streams}}
   </div>
@@ -38,7 +38,7 @@
   <br> 
   {{#streams}}
   <div>
-  {{#channel}}<a href="#" class='stream-link light dark'>{{name}}</a> [<a href="#/chan/{{name}}" class='stream-link light dark' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" class='stream-link light'>n</a>] - {{status}}{{/channel}}
+  {{#channel}}<a href="#/chan/{{name}}" class='stream-link light dark'>{{name}}</a> [<a href="#/chan/{{name}}/chat" class='stream-link light dark' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" class='stream-link light'>n</a>] - {{status}}{{/channel}}
   </div>
   {{/streams}}{{^streams}}No streams online.{{/streams}}
   </div>
@@ -114,6 +114,8 @@
             routes: {
                 "channel/:ch": "channelRoute",
                 "chan/:ch": "channelShortRoute",
+                "channel/:ch/chat": "channelChatRoute",
+                "chan/:ch/chat": "channelChatShortRoute",
                 "*action": "defaultRoute" // matches http://example.com/#anything-here
             }
         });
@@ -126,6 +128,14 @@
 
         app_router.on('route:channelShortRoute', function(ch) {
             embedChannel(ch);
+        });
+
+        app_router.on('route:channelChatRoute', function(ch) {
+            embedChannelWithChat(ch);
+        });
+
+        app_router.on('route:channelChatShortRoute', function(ch) {
+            embedChannelWithChat(ch);
         });
 
         app_router.on('route:defaultRoute', function(actions) {
