@@ -270,18 +270,15 @@ function resizePlayer(width, height, ms) {
   if(width === 0 && height === 0) {
     height = $(window).height() - 10;
     width = (($(window).height()- 40) / 9) * 16;
-    
   }
   else {
     if (width > window.innerWidth) width = window.innerWidth;
     if (height > window.innerHeight) height = window.innerHeight;
   }
+  document.getElementById("live_embed_player_flash").style.height = height;
+  document.getElementById("live_embed_player_flash").style.width = width;
   localStorage.setItem('warcode.720px.player.height', height);
   localStorage.setItem('warcode.720px.player.width', width);
-  $('#live_embed_player_flash').animate({
-    height: height,
-    width: width
-  }, ms);
 }
 
 </script>
