@@ -240,14 +240,22 @@ function embedChannel(channel) {
   var data = {"channel": channel};
   $('#embed-player').hide().empty().html(ich.embedChannel(data)).fadeIn();
   $('div.size-control-dropdown').fadeIn();
-  resizePlayer(localStorage.getItem('warcode.720px.player.width'), localStorage.getItem('warcode.720px.player.height'));
+  var width = localStorage.getItem('warcode.720px.player.width');
+  var height = localStorage.getItem('warcode.720px.player.height');
+  if(width === 0) width = 1280;
+  if(height === 0) height = 750;
+  resizePlayer(width, height);
 }
 
 function embedChannelWithChat(channel) {
   var data = {"channel": channel};
   $('#embed-player').hide().empty().html(ich.embedChannelAndChat(data)).fadeIn();
   $('div.size-control-dropdown').fadeIn();
-  resizePlayer(localStorage.getItem('warcode.720px.player.width'), localStorage.getItem('warcode.720px.player.height'));
+  var width = localStorage.getItem('warcode.720px.player.width');
+  var height = localStorage.getItem('warcode.720px.player.height');
+  if(width === 0) width = 1280;
+  if(height === 0) height = 750;
+  resizePlayer(width, height);
 }
 
 function quickPlay(channel) {
@@ -272,8 +280,8 @@ function resizePlayer(width, height) {
     if (height > ($(window).height())) height = ($(window).height());
   }
   console.log(width + "x" + height);
-  document.getElementById("live_embed_player_flash").style.height = Math.round(height);
-  document.getElementById("live_embed_player_flash").style.width = Math.round(width);
+  document.getElementById("live_embed_player_flash").style.height = Math.round(height)px;
+  document.getElementById("live_embed_player_flash").style.width = Math.round(width)px;
   localStorage.setItem('warcode.720px.player.height', Math.round(height));
   localStorage.setItem('warcode.720px.player.width', Math.round(width));
 }
