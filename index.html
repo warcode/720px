@@ -272,8 +272,7 @@ function resizePlayer(width, height) {
     if (width > ($(window).width())) width = $(window).width();
     if (height > ($(window).height())) height = ($(window).height());
   }
-  console.log(height);
-  console.log(width);
+  console.log(width + "x" + height);
   document.getElementById("live_embed_player_flash").style.height = Math.round(height);
   document.getElementById("live_embed_player_flash").style.width = Math.round(width);
   localStorage.setItem('warcode.720px.player.height', Math.round(height));
@@ -297,7 +296,7 @@ function resizePlayer(width, height) {
       </div>
 
       <div class="size-control" style="text-align:center; width: 500px; word-spacing:1em">
-        <a href='javascript:void(0)' onClick='resizePlayer(640, 390)' class='light'>[360p]</a> 
+        <a href='#' onClick='resizePlayer(640, 390)' class='light'>[360p]</a> 
         <a href='javascript:void(0)' onClick='resizePlayer(854, 510)' class='light'>[480p]</a> 
         <a href='javascript:void(0)' onClick='resizePlayer(960, 570)' class='light'>[540p]</a>
         <a href='javascript:void(0)' onClick='resizePlayer(1024, 606)' class='light'>[576p]</a><br>
