@@ -264,17 +264,16 @@ function quickPlay(channel) {
 //}
 
 function resizePlayer(width, height) {
-  resizePlayer(width, height, 0);
-}
-function resizePlayer(width, height, ms) {
   if(width === 0 && height === 0) {
     height = $(window).height() - 10;
     width = (($(window).height()- 40) / 9) * 16;
   }
   else {
-    if (width > window.innerWidth) width = window.innerWidth;
-    if (height > window.innerHeight) height = window.innerHeight;
+    if (width > ($(window).width())) width = $(window).width();
+    if (height > ($(window).height())) height = ($(window).height());
   }
+  console.log(height);
+  console.log(width);
   document.getElementById("live_embed_player_flash").style.height = height;
   document.getElementById("live_embed_player_flash").style.width = width;
   localStorage.setItem('warcode.720px.player.height', height);
