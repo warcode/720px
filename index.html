@@ -256,28 +256,28 @@ function quickPlay(channel) {
     pl.data = "http://www.twitch.tv/widgets/live_embed_player.swf?channel=mlg";
 }
 
-//function resizePlayer(width, height) {
-//  document.getElementById("live_embed_player_flash").style.height = height;
-//  document.getElementById("live_embed_player_flash").style.width = width;
-//  localStorage.setItem('warcode.720px.player.height', height);
-//  localStorage.setItem('warcode.720px.player.width', width);
-//}
-
 function resizePlayer(width, height) {
-  if(width === 0 && height === 0) {
-    height = $(window).height() - 10;
-    width = (($(window).height()- 40) / 9) * 16;
-  }
-  else {
-    if (width > ($(window).width())) width = $(window).width();
-    if (height > ($(window).height())) height = ($(window).height());
-  }
-  console.log(width + "x" + height);
-  document.getElementById("live_embed_player_flash").style.height = Math.round(height);
-  document.getElementById("live_embed_player_flash").style.width = Math.round(width);
-  localStorage.setItem('warcode.720px.player.height', Math.round(height));
-  localStorage.setItem('warcode.720px.player.width', Math.round(width));
+  document.getElementById("live_embed_player_flash").style.height = height;
+  document.getElementById("live_embed_player_flash").style.width = width;
+  localStorage.setItem('warcode.720px.player.height', height);
+  localStorage.setItem('warcode.720px.player.width', width);
 }
+
+//function resizePlayer(width, height) {
+//  if(width === 0 && height === 0) {
+//    height = $(window).height() - 10;
+//    width = (($(window).height()- 40) / 9) * 16;
+//  }
+//  else {
+//    if (width > ($(window).width())) width = $(window).width();
+//    if (height > ($(window).height())) height = ($(window).height());
+//  }
+//  console.log(width + "x" + height);
+//  document.getElementById("live_embed_player_flash").style.height = Math.round(height);
+//  document.getElementById("live_embed_player_flash").style.width = Math.round(width);
+//  localStorage.setItem('warcode.720px.player.height', Math.round(height));
+//  localStorage.setItem('warcode.720px.player.width', Math.round(width));
+//}
 
 </script>
 
