@@ -16,6 +16,7 @@
   <script type="text/javascript" src="http://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/ICanHaz.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/jquery-ui-1.9.2.custom.min.js"></script>
+  <script type="text/javascript" src="https://deny.io/denyanalytics/denyAnalytics.js"></script>
 
   <script id="followedStreams" type="text/html">
   <div style="text-align:center; padding:20px;">
@@ -91,6 +92,7 @@
       // the sdk is now loaded
       if (status.authenticated) {
         var token = Twitch.getToken();
+        denyAnalytics.Visit("warcode.net", "720px");
       //console.log(token)
       // Already logged in, hide button
       $('.twitch-connect').hide();
