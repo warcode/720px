@@ -276,8 +276,8 @@ function resizePlayer(width, height) {
     if (height > ($(window).height())) height = ($(window).height());
   }
   console.log(width + "x" + height);
-  document.getElementById("live_embed_player_flash").style.height = Math.round(height);
-  document.getElementById("live_embed_player_flash").style.width = Math.round(width);
+  document.getElementById("live_embed_player_flash").style.height = ''+Math.round(height)+'px';
+  document.getElementById("live_embed_player_flash").style.width = ''+Math.round(width)+'px';
   localStorage.setItem('warcode.720px.player.height', Math.round(height));
   localStorage.setItem('warcode.720px.player.width', Math.round(width));
 }
