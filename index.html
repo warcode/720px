@@ -242,8 +242,8 @@ function embedChannel(channel) {
   $('div.size-control-dropdown').fadeIn();
   var width = localStorage.getItem('warcode.720px.player.width');
   var height = localStorage.getItem('warcode.720px.player.height');
-  if(width === 0) width = 1280;
-  if(height === 0) height = 750;
+  if(width < 1) { width = 1280; }
+  if(height < 1) { height = 750; }
   resizePlayer(width, height);
 }
 
@@ -253,14 +253,9 @@ function embedChannelWithChat(channel) {
   $('div.size-control-dropdown').fadeIn();
   var width = localStorage.getItem('warcode.720px.player.width');
   var height = localStorage.getItem('warcode.720px.player.height');
-  if(width === 0) width = 1280;
-  if(height === 0) height = 750;
+  if(width < 1) { width = 1280; }
+  if(height < 1) { height = 750; }
   resizePlayer(width, height);
-}
-
-function quickPlay(channel) {
-    var pl = document.getElementById("live_embed_player_flash");
-    pl.data = "http://www.twitch.tv/widgets/live_embed_player.swf?channel=mlg";
 }
 
 //function resizePlayer(width, height) {
@@ -303,7 +298,7 @@ function resizePlayer(width, height) {
       </div>
 
       <div class="size-control" style="text-align:center; width: 500px; word-spacing:1em">
-        <a href='#' onClick='resizePlayer(640, 390)' class='light'>[360p]</a> 
+        <a href='javascript:void(0)' onClick='resizePlayer(640, 390)' class='light'>[360p]</a> 
         <a href='javascript:void(0)' onClick='resizePlayer(854, 510)' class='light'>[480p]</a> 
         <a href='javascript:void(0)' onClick='resizePlayer(960, 570)' class='light'>[540p]</a>
         <a href='javascript:void(0)' onClick='resizePlayer(1024, 606)' class='light'>[576p]</a><br>
