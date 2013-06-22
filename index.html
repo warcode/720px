@@ -1,9 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 
   <meta charset="utf-8">
   
   <title>720px</title>
+
+  <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="http://warcode.net/720px/720px.css">
 
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/underscore-min.js"></script>
@@ -12,10 +16,6 @@
   <script type="text/javascript" src="http://ttv-api.s3.amazonaws.com/twitch.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/ICanHaz.min.js"></script>
   <script type="text/javascript" src="http://warcode.net/720px/jquery-ui-1.9.2.custom.min.js"></script>
-
-  <link href='http://fonts.googleapis.com/css?family=Arbutus+Slab' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" type="text/css" href="http://warcode.net/720px/720px.css">
 
   <script id="followedStreams" type="text/html">
   <div style="text-align:center; padding:20px;">
@@ -256,11 +256,32 @@ function quickPlay(channel) {
     pl.data = "http://www.twitch.tv/widgets/live_embed_player.swf?channel=mlg";
 }
 
+//function resizePlayer(width, height) {
+//  document.getElementById("live_embed_player_flash").style.height = height;
+//  document.getElementById("live_embed_player_flash").style.width = width;
+//  localStorage.setItem('warcode.720px.player.height', height);
+//  localStorage.setItem('warcode.720px.player.width', width);
+//}
+
 function resizePlayer(width, height) {
-  document.getElementById("live_embed_player_flash").style.height = height;
-  document.getElementById("live_embed_player_flash").style.width = width;
+  resizePlayer(width, height, 0);
+}
+function resizePlayer(width, height, ms) {
+  if(width === 0 && height === 0) {
+    height = $(window).height() - 10;
+    width = (($(window).height()- 40) / 9) * 16;
+    
+  }
+  else {
+    if (width > window.innerWidth) width = window.innerWidth;
+    if (height > window.innerHeight) height = window.innerHeight;
+  }
   localStorage.setItem('warcode.720px.player.height', height);
   localStorage.setItem('warcode.720px.player.width', width);
+  $('#live_embed_player_flash').animate({
+    height: height,
+    width: width
+  }, ms);
 }
 
 </script>
@@ -280,18 +301,18 @@ function resizePlayer(width, height) {
       </div>
 
       <div class="size-control" style="text-align:center; width: 500px; word-spacing:1em">
-        <a href='#' onClick='resizePlayer(640, 390)' class='light'>[360p]</a> 
-        <a href='#' onClick='resizePlayer(854, 510)' class='light'>[480p]</a> 
-        <a href='#' onClick='resizePlayer(960, 570)' class='light'>[540p]</a>
-        <a href='#' onClick='resizePlayer(1024, 606)' class='light'>[576p]</a><br>
-        <a href='#' onClick='resizePlayer(1280, 750)' class='light'>[720p]</a>
-        <a href='#' onClick='resizePlayer(1366, 798)' class='light'>[768p]</a>
-        <a href='#' onClick='resizePlayer(1600, 930)' class='light'>[900p]</a>
-        <a href='#' onClick='resizePlayer(1920, 1110)' class='light'>[1080p]</a><br>
-        <a href='#' onClick='resizePlayer(2048, 1182)' class='light'>[1152p]</a>
-        <a href='#' onClick='resizePlayer(2560, 1470)' class='light'>[1440p]</a>
-        <a href='#' onClick='resizePlayer(3840, 2190)' class='light'>[2160p]</a>
-        <a href='#' onClick='resizePlayer(4096, 2334)' class='light'>[2304p]</a>
+        <a href='javascript:void(0)' onClick='resizePlayer(640, 390)' class='light'>[360p]</a> 
+        <a href='javascript:void(0)' onClick='resizePlayer(854, 510)' class='light'>[480p]</a> 
+        <a href='javascript:void(0)' onClick='resizePlayer(960, 570)' class='light'>[540p]</a>
+        <a href='javascript:void(0)' onClick='resizePlayer(1024, 606)' class='light'>[576p]</a><br>
+        <a href='javascript:void(0)' onClick='resizePlayer(1280, 750)' class='light'>[720p]</a>
+        <a href='javascript:void(0)' onClick='resizePlayer(1366, 798)' class='light'>[768p]</a>
+        <a href='javascript:void(0)' onClick='resizePlayer(1600, 930)' class='light'>[900p]</a>
+        <a href='javascript:void(0)' onClick='resizePlayer(1920, 1110)' class='light'>[1080p]</a><br>
+        <a href='javascript:void(0)' onClick='resizePlayer(2048, 1182)' class='light'>[1152p]</a>
+        <a href='javascript:void(0)' onClick='resizePlayer(2560, 1470)' class='light'>[1440p]</a>
+        <a href='javascript:void(0)' onClick='resizePlayer(3840, 2190)' class='light'>[2160p]</a>
+        <a href='javascript:void(0)' onClick='resizePlayer(0, 0)' class='light'>[MAXp]</a>
       </div>
     </center>
     <br>
