@@ -63,7 +63,7 @@
   </object>
   </div>
   <div id="chat_embed" style="padding:0; float:left; border: 0; overflow: hidden !important;" >
-  <iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel={{channel}}&amp;popout_chat=true&quot;" height="750" width="495"></iframe>
+  <iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel={{chat}}&amp;popout_chat=true&quot;" height="750" width="495"></iframe>
   </div>
   </center>
   <div style="clear: both;">
@@ -118,6 +118,8 @@
                 "chan/:ch": "channelShortRoute",
                 "channel/:ch/chat": "channelChatRoute",
                 "chan/:ch/chat": "channelChatShortRoute",
+                "channel/:ch/chat/:cha": "channelChatChoiceRoute",
+                "chan/:ch/chat/:cha": "channelChatChoiceShortRoute",
                 ":action": "defaultRoute" // matches http://example.com/#anything-here
             }
         });
@@ -138,6 +140,14 @@
 
         app_router.on('route:channelChatShortRoute', function(ch) {
             embedChannelWithChat(ch);
+        });
+
+        app_router.on('route:channelChatChoiceRoute', function(ch, cha) {
+            embedChannelWithChat(ch, cha);
+        });
+
+        app_router.on('route:channelChatChoiceShortRoute', function(ch, cha) {
+            embedChannelWithChat(ch, cha);
         });
 
         app_router.on('route:defaultRoute', function(actions) {
@@ -250,8 +260,9 @@ function embedChannel(channel) {
   resizePlayer(width, height);
 }
 
-function embedChannelWithChat(channel) {
-  var data = {"channel": channel};
+function embedChannelWithChat(channel, chat) {
+  chat = (typeof chat !== 'undefined' ? chat : channel);
+  var data = {"channel": channel, "chat": chat};
   $('#embed-player').hide().empty().html(ich.embedChannelAndChat(data)).fadeIn();
   $('div.size-control-dropdown').fadeIn();
   var width = localStorage.getItem('warcode.720px.player.width');
