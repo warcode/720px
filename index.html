@@ -277,7 +277,7 @@ function resizePlayer(width, height) {
     if (width > ($(window).width())) width = $(window).width();
     if (height > ($(window).height())) height = ($(window).height());
   }
-  console.log(width + "x" + height);
+  //console.log(width + "x" + height);
   document.getElementById("live_embed_player_flash").style.height = ''+Math.round(height)+'px';
   document.getElementById("live_embed_player_flash").style.width = ''+Math.round(width)+'px';
   localStorage.setItem('warcode.720px.player.height', Math.round(height));
