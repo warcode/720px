@@ -261,7 +261,7 @@ function embedChannel(channel) {
 }
 
 function embedChannelWithChat(channel, chat) {
-  chat = typeof chat !=== 'undefined' ? chat : channel;
+  chat = (typeof chat !== 'undefined' ? chat : channel);
   var data = {"channel": channel, "chat": chat};
   $('#embed-player').hide().empty().html(ich.embedChannelAndChat(data)).fadeIn();
   $('div.size-control-dropdown').fadeIn();
