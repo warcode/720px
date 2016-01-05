@@ -48,8 +48,7 @@
   <script id="embedChannel" type="text/html">
   <div>
   <center>
-  <object type="application/x-shockwave-flash" height="750" width="1280" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="enable_javascript=true&auto_play=false&channel={{channel}}&start_volume=25" />
-  </object>
+    <iframe src="http://player.twitch.tv/?volume=0.2&autoplay=false&channel={{channel}}" allowfullscreen="" frameborder="0" scrolling="no" style="height: 87vh;width: 77vw;"></iframe>
   </center>
   </div>
   </script>
@@ -58,8 +57,7 @@
   <script id="embedChannelAndChat" type="text/html">
   <div style="padding:0; float:left;">
   <center>
-  <object type="application/x-shockwave-flash" height="750" width="1280" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel={{channel}}" bgcolor="#000000"><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" /><param name="flashvars" value="auto_play=false&channel={{channel}}&start_volume=25" />
-  </object>
+    <iframe src="http://player.twitch.tv/?volume=0.2&autoplay=false&channel={{channel}}" allowfullscreen="" frameborder="0" scrolling="no" style="height: 87vh;width: 77vw;"></iframe>
   </div>
   <div id="chat_embed" style="padding:0; float:left; border: 0; overflow: hidden !important;" >
   <iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel={{chat}}&amp;popout_chat=true&quot;" height="750" width="495"></iframe>
