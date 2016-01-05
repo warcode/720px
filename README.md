@@ -1,6 +1,6 @@
 720px is a minimalistic 720p embed-site for Twitch.TV
 ==========================
-It can be found at http://warcode.net/720px/
+It can be found at http://www.warcode.net/
 
 * It automatically fetches and refreshes a list of those streams you follow on your Twitch.TV account that are currently live.
 * Allows you to show just the stream or stream and chat.
