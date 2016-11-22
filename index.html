@@ -24,7 +24,7 @@
   <br> 
   {{#streams}}
   <div>
-  {{#channel}}<a href="#/chan/{{name}}" class='stream-link light'>{{name}}</a> [<a href="#/chan/{{name}}/chat" class='stream-link light' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" class='stream-link light'>n</a>] - {{status}}{{/channel}}
+  {{#channel}}<a href="#/chan/{{name}}" class='stream-link light'>{{name}}</a> [<a href="#/chan/{{name}}/chat" class='stream-link light' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" rel="noopener noreferrer" class='stream-link light'>n</a>] - {{status}}{{/channel}}
   </div>
   {{/streams}}{{^streams}}No streams online.{{/streams}}
   </div>
@@ -38,7 +38,7 @@
   <br> 
   {{#streams}}
   <div>
-  {{#channel}}<a href="#/chan/{{name}}" class='stream-link light dark'>{{name}}</a> [<a href="#/chan/{{name}}/chat" class='stream-link light dark' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" class='stream-link light'>n</a>] - {{status}}{{/channel}}
+  {{#channel}}<a href="#/chan/{{name}}" class='stream-link light dark'>{{name}}</a> [<a href="#/chan/{{name}}/chat" class='stream-link light dark' onClick="embedChannelWithChat('{{name}}')">c</a>][<a href="http://twitch.tv/{{name}}" target="_blank" rel="noopener noreferrer" class='stream-link light'>n</a>] - {{status}}{{/channel}}
   </div>
   {{/streams}}{{^streams}}No streams online.{{/streams}}
   </div>
